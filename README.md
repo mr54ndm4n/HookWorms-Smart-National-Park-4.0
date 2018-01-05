@@ -3,3 +3,9 @@
 ### By Hookworms KMITL
 ## Getting Started
 *Available Soon!*
+## Contributors
+- A
+- B
+- C
+- D
+- E
