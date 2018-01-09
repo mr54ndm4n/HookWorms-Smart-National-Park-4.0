@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HAPI: <%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .team-scope {
+            border: 2px solid blue;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to HAPI</h1>
+<h2><%= title %></h2>
+
+<% for(var i=0; i < result.teams.length; i++) { %>
+<div class="team-scope">
+    <h2>TEAM: <%= result.teams[i].id %></h2>
+    <h4>Temperature</h4>
+    <table style="width:100%">
+        <tr>
+            <th>sensID</th>
+            <th>val</th>
+            <th>date</th>
+        </tr>
+        <% for(var j=0; j < result.teams[i].temparature.length; j++) { %>
+        <tr>
+            <td><%= result.teams[i].temparature[j].sensID %></td>
+            <td><%= result.teams[i].temparature[j].val %></td>
+            <td><%= result.teams[i].temparature[j].date %></td>
+        </tr>
+        <% } %>
+    </table><br><br>
+    <h4>Accelerometer</h4>
+    <table style="width:100%">
+        <tr>
+            <th>sensID</th>
+            <th>val_x</th>
+            <th>val_y</th>
+            <th>val_z</th>
+            <th>date</th>
+        </tr>
+        <% for(var j=0; j < result.teams[i].accelerometer.length; j++) { %>
+        <tr>
+            <td><%= result.teams[i].accelerometer[j].sensID %></td>
+            <td><%= result.teams[i].accelerometer[j].val_x %></td>
+            <td><%= result.teams[i].accelerometer[j].val_y %></td>
+            <td><%= result.teams[i].accelerometer[j].val_z %></td>
+            <td><%= result.teams[i].accelerometer[j].date %></td>
+        </tr>
+        <% } %>
+    </table><br><br>
+    <h4>Din1</h4>
+    <table style="width:100%">
+        <tr>
+            <th>sensID</th>
+            <th>val</th>
+            <th>date</th>
+        </tr>
+        <% for(var j=0; j < result.teams[i].din1.length; j++) { %>
+        <tr>
+            <td><%= result.teams[i].din1[j].sensID %></td>
+            <td><%= result.teams[i].din1[j].val %></td>
+            <td><%= result.teams[i].din1[j].date %></td>
+        </tr>
+        <% } %>
+    </table><br><br>
+</div>
+<br>
+<% } %>
+</body>
+</html>
