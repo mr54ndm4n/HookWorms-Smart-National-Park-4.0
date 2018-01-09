@@ -94,12 +94,11 @@ if isPushed
 %     handles.dataWeek = handles.Data(cond, :);
     
     handles.dataWeek = handles.Data.Timestamp( week(handles.Data.Timestamp) == handles.chooseWeek );
-    disp(handles.dataWeek)
+%     disp(handles.dataWeek)
 
     datenumber = datenum(handles.dataWeek);
     handles.datenumber = datenumber;
     handles.t = datenumber;
-    
     test = handles.Data.PowerkW( week(handles.Data.Timestamp) == handles.chooseWeek );
     handles.y = test;
     
@@ -110,17 +109,34 @@ if isPushed
 %     handles.y = handles.dataWeek.PowerkW;
     
     
-    c = struct();
-    c.idx = 1;
+%     c = struct();
+%     c.idx = 1;
+%     c.speed = handles.speedChoose * 4;
+%     c.xData = handles.t;
+%     c.yData = handles.y;
+%     c.axes2 = handles.axes2;
+%     an = animatedline;
+%     c.handle = an;
+%     handles.timer.UserData = c;
+%     disp(class(handles.timer.UserData))
+%     disp(handles.timer.UserData)
+%     if strcmp(class(handles.timer.UserData),'struct')
+%         disp('in')
+%         handles.saveTimerData.idx = getfield(handles.timer.UserData, 'idx');
+%     end
+    c = handles.timer.UserData;
+    
     c.speed = handles.speedChoose * 4;
     c.xData = handles.t;
     c.yData = handles.y;
-    c.axes2 = handles.axes2;
-    an = animatedline;
-    c.handle = an;
     handles.timer.UserData = c;
+%     handles.timer.UserData.speed = handles.speedChoose * 4;
+%     handles.timer.UserData.xData = handles.t;
+%     handles.timer.UserData.yData = handles.y;
     
     axis(handles.axes2, [min(handles.datenumber) max(handles.datenumber) 0 max(handles.y) ])
+%     datetick(handles.axes2,'x','keepticks','keeplimits')
+    datetick(handles.axes2,'x')
     start(handles.timer);
     
 else 
@@ -203,16 +219,22 @@ filename = uigetfile('*.*');
 handles.Data= importfile(filename);
 set(handles.FileName,'String',filename);
 
-c = struct();
-c.idx = 1;
-% disp(handles.dataWeek)
-
-
 T = timer;
 T.period = 1;
 T.ExecutionMode = 'fixedRate';
 T.TimerFcn = @Update_Fcn;
 handles.timer = T;
+
+
+c = struct();
+c.idx = 1;
+% c.speed = 0;
+% c.xData = handles.Data;
+% c.yData = handles.Data;
+c.axes2 = handles.axes2;
+an = animatedline;
+c.handle = an;
+handles.timer.UserData = c;
 
 
 
@@ -227,12 +249,13 @@ guidata(hObject, handles);
 % Local function for updating graph
 function Update_Fcn(obj, evt)
 c = obj.UserData;
+
 for i = 1:c.speed
     if c.idx <= size(c.xData,1)
         x = c.xData(c.idx);
         y = c.yData(c.idx);
         addpoints(c.handle, x, y);
-        datetick(c.axes2,'x','keepticks','keeplimits')
+%         datetick(c.axes2,'x','keepticks','keeplimits')
         c.idx = c.idx + 1;
         obj.UserData = c;        
     else
