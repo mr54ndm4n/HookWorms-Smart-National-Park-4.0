@@ -3,12 +3,14 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var request = require('request');
 var https = require('https');
+var rp = require('request-promise');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({
     extended: true
 }));
 
+const CATurl = "http://10.0.0.10";
 const status = {
     "00": {
         code: "00",
@@ -26,39 +28,32 @@ const status = {
 
 
 var dataFetcher = (team, res) => {
-    var url_temp = "http://10.0.0.10/api/temperature/"+team+"/3";
-    var url_acce = "http://10.0.0.10/api/accelerometer/"+team+"/3";
-    var url_din1 = "http://10.0.0.10/api/din1/"+team+"/3";
-    request(url_temp, function(error, response, body){
-        var t_data = JSON.parse(body);
-        var temp_data = t_data.statusCode == "01"? t_data.statusDesc : t_data.data;
-        console.log(body)
-        // try{var temp_data = JSON.parse(body).data; console.log(JSON.parse(body).data);}
-        // catch(e){var temp_data = "Can't get data"; console.log("Can't get temp");}
-        request(url_acce, function(error, response, body){
-            var a_data = JSON.parse(body);
-            var acc_data = a_data.statusCode == "01"? a_data.statusDesc : a_data.data;
-            // try{var acc_data = JSON.parse(body).data; console.log(JSON.parse(body).data);}
-            // catch(e){var acc_data = "Can't get data"; console.log("Can't get accelerometer");}
-            request(url_din1, function(error, response, body){
-                var d_data = JSON.parse(body);
-                var din1_data = d_data.statusCode == "01"? d_data.statusDesc : d_data.data;
-                // try{var din1_data = JSON.parse(body).data; console.log(JSON.parse(body).data);}
-                // catch(e){var din1_data = "Can't get data"; console.log("Can't get din1");}
-                var result = ({
-                    "id": team,
-                    "temparature": temp_data,
-                    "accelerometer": acc_data,
-                    "din1": din1_data
-                });
-                console.log(result);
-                res.render('team', {
-                    title: 'Team ' + team,
-                    result: result
-                });
-            });
+
+    var myRequests = [];
+    myRequests.push(rp(CATurl + "/api/temperature/" + team + "/3"));
+    myRequests.push(rp(CATurl + "/api/accelerometer/" + team + "/3"));
+    myRequests.push(rp(CATurl + "/api/din1/"+team+"/3"));
+    var result = Promise.all(myRequests)
+        .then((arrayOfHtml) => {
+        var temparature = arrayOfHtml[0]? JSON.parse(arrayOfHtml[0]).data: null;
+        var accelerometer = arrayOfHtml[1]? JSON.parse(arrayOfHtml[1]).data: null;
+        var din1 = arrayOfHtml[2]? JSON.parse(arrayOfHtml[2]).data: null;
+        return ({
+            "id": team,
+            "temparature": 1,
+            "accelerometer": 2,
+            "din1": 3
         });
+    }).catch(function (err) {
+        console.log("Error" + err);
     });
+    console.log("Result");
+    console.log(result)
+    res.render('team', {
+        title: 'Team ' + team,
+        result: result
+    });
+
 }
 
 /* GET home page. */
@@ -72,80 +67,14 @@ router.get('/hookworms', function(req, res, next) {
 
 
 router.get('/teams/all/', function(req, res, next) {
-    var url_temp_5 = "http://10.0.0.10/api/temperature/"+5+"/3";
-    var url_acce_5 = "http://10.0.0.10/api/accelerometer/"+5+"/3";
-    var url_din1_5 = "http://10.0.0.10/api/din1/"+5+"/3";
-    var url_temp_7 = "http://10.0.0.10/api/temperature/"+7+"/3";
-    var url_acce_7 = "http://10.0.0.10/api/accelerometer/"+7+"/3";
-    var url_din1_7 = "http://10.0.0.10/api/din1/"+7+"/3";
-    var url_temp_9 = "http://10.0.0.10/api/temperature/"+9+"/3";
-    var url_acce_9 = "http://10.0.0.10/api/accelerometer/"+9+"/3";
-    var url_din1_9 = "http://10.0.0.10/api/din1/"+9+"/3";
-    request(url_temp_5, function(error, response, body){
-        var t_data5 = JSON.parse(body);
-        var temp_data5 = t_data5.statusCode == "01"? t_data5.statusDesc : t_data5.data;
-        console.log(body)
-        request(url_acce_5, function(error, response, body){
-            var a_data5= JSON.parse(body);
-            var acc_data5 = a_data5.statusCode == "01"? a_data5.statusDesc : a_data5.data;
-            request(url_din1_5, function(error, response, body){
-                var d_data5 = JSON.parse(body);
-                var din1_data5 = d_data5.statusCode == "01"? d_data5.statusDesc : d_data5.data;
-                request(url_temp_7, function(error, response, body){
-                    var t_data7 = JSON.parse(body);
-                    var temp_data7 = t_data7.statusCode == "01"? t_data7.statusDesc : t_data7.data;
-                    console.log(body)
-                    request(url_acce_7, function(error, response, body){
-                        var a_data7= JSON.parse(body);
-                        var acc_data7 = a_data7.statusCode == "01"? a_data7.statusDesc : a_data7.data;
-                        request(url_din1_7, function(error, response, body){
-                            var d_data7 = JSON.parse(body);
-                            var din1_data7 = d_data7.statusCode == "01"? d_data7.statusDesc : d_data7.data;
-                            request(url_temp_9, function(error, response, body){
-                                var t_data9 = JSON.parse(body);
-                                var temp_data9 = t_data9.statusCode == "01"? t_data9.statusDesc : t_data9.data;
-                                console.log(body)
-                                request(url_acce_9, function(error, response, body){
-                                    var a_data9= JSON.parse(body);
-                                    var acc_data9 = a_data9.statusCode == "01"? a_data9.statusDesc : a_data9.data;
-                                    request(url_din1_9, function(error, response, body){
-                                        var d_data9 = JSON.parse(body);
-                                        var din1_data9 = d_data9.statusCode == "01"? d_data9.statusDesc : d_data9.data;
-                                        var result = ({
-                                            "teams": [
-                                                {
-                                                    "id": "5",
-                                                    "temparature": temp_data5,
-                                                    "accelerometer": acc_data5,
-                                                    "din1": din1_data5
-                                                },
-                                                {
-                                                    "id": "7",
-                                                    "temparature": temp_data7,
-                                                    "accelerometer": acc_data7,
-                                                    "din1": din1_data7
-                                                },
-                                                {
-                                                    "id": "9",
-                                                    "temparature": temp_data9,
-                                                    "accelerometer": acc_data9,
-                                                    "din1": din1_data9
-                                                }
-                                            ]
-                                        });
-                                        console.log(result);
-                                        res.render('teams', {
-                                            title: 'All Teams',
-                                            result: result
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
+    var data_list = []
+    device_nodes.forEach((device_node) => {
+        data_list.push(dataFetcher(device_node, res));
+    })
+    console.log(data_list);
+    res.render('teams', {
+        title: 'All Teams',
+        result: data_list
     });
 });
 
@@ -167,8 +96,6 @@ router.post('/showresponse', function(req, res, next) {
         LAT: req.body.LAT,
         LONG: req.body.LONG
     });
-    // var newuser = req.body;
-    // res.send('Add new ' + newuser.name + ' Completed!');
 });
 
 module.exports = router;
