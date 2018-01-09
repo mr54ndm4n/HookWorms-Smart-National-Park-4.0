@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var https = require('https');
 var rp = require('request-promise');
+var Promise = require("bluebird");
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({
@@ -33,27 +34,23 @@ var dataFetcher = (team, res) => {
     myRequests.push(rp(CATurl + "/api/temperature/" + team + "/3"));
     myRequests.push(rp(CATurl + "/api/accelerometer/" + team + "/3"));
     myRequests.push(rp(CATurl + "/api/din1/"+team+"/3"));
-    var result = Promise.all(myRequests)
-        .then((arrayOfHtml) => {
-        var temparature = arrayOfHtml[0]? JSON.parse(arrayOfHtml[0]).data: null;
-        var accelerometer = arrayOfHtml[1]? JSON.parse(arrayOfHtml[1]).data: null;
-        var din1 = arrayOfHtml[2]? JSON.parse(arrayOfHtml[2]).data: null;
-        return ({
+    Promise.all(myRequests).then(function(arrayOfHtml){
+        let temparature_data = arrayOfHtml[0]? JSON.parse(arrayOfHtml[0]).data: null;
+        let accelerometer_data = arrayOfHtml[1]? JSON.parse(arrayOfHtml[1]).data: null;
+        let din1_data = arrayOfHtml[2]? JSON.parse(arrayOfHtml[2]).data: null;
+        let result = ({
             "id": team,
-            "temparature": 1,
-            "accelerometer": 2,
-            "din1": 3
+            "temparature": temparature_data,
+            "accelerometer": accelerometer_data,
+            "din1": din1_data
+        });
+        res.render('team', {
+            title: 'Team ' + team,
+            result: result
         });
     }).catch(function (err) {
         console.log("Error" + err);
     });
-    console.log("Result");
-    console.log(result)
-    res.render('team', {
-        title: 'Team ' + team,
-        result: result
-    });
-
 }
 
 /* GET home page. */
@@ -67,15 +64,73 @@ router.get('/hookworms', function(req, res, next) {
 
 
 router.get('/teams/all/', function(req, res, next) {
-    var data_list = []
-    device_nodes.forEach((device_node) => {
-        data_list.push(dataFetcher(device_node, res));
-    })
-    console.log(data_list);
-    res.render('teams', {
-        title: 'All Teams',
-        result: data_list
+    var data_list = [];
+    var myRequests = [];
+    var nodes_list = [5, 7, 9];
+    nodes_list.forEach(function(device_node){
+        // myRequests.push(rp(CATurl + "/api/temperature/" + device_node + "/3"));
+        // myRequests.push(rp(CATurl + "/api/accelerometer/" + device_node + "/3"));
+        // myRequests.push(rp(CATurl + "/api/din1/"+device_node+"/3"));
+        myRequests.push(rp("https://jsonplaceholder.typicode.com/todos"));
+        myRequests.push(rp("https://jsonplaceholder.typicode.com/todos"));
+        myRequests.push(rp("https://jsonplaceholder.typicode.com/todos"));
     });
+    Promise.all(myRequests).then(function (arrayOfData){
+        console.log("myRequests.length = " + myRequests.length);
+        var result_data_list = [];
+        for(let i = 0; i<myRequests.length; i += 3){
+            console.log("TEAM {" + nodes_list[(i)/3] + "}");
+            let temparature_data = arrayOfData[i]? JSON.parse(arrayOfData[i]).data: null;
+            // let temparature_data = arrayOfData[i]? JSON.parse(arrayOfData[i]): null;
+            let accelerometer_data = arrayOfData[i+1]? JSON.parse(arrayOfData[i+1]).data: null;
+            // let accelerometer_data = arrayOfData[i+1]? JSON.parse(arrayOfData[i+1]): null;
+            let din1_data = arrayOfData[i+2]? JSON.parse(arrayOfData[i+2]).data: null;
+            // let din1_data = arrayOfData[i+2]? JSON.parse(arrayOfData[i+2]): null;
+            result_data_list.push({
+                "id": nodes_list[(i)/3],
+                "temparature": temparature_data,
+                "accelerometer": accelerometer_data,
+                "din1": din1_data
+            })
+        }
+        console.log("result_data_list");
+        console.log(result_data_list);
+    });
+    res.render('index', {
+        title: 'All Teams',
+        result: []
+    });
+
+
+    // var myRequests = [];
+    // myRequests.push(rp(CATurl + "/api/temperature/" + team + "/3"));
+    // myRequests.push(rp(CATurl + "/api/accelerometer/" + team + "/3"));
+    // myRequests.push(rp(CATurl + "/api/din1/"+team+"/3"));
+    // var result = Promise.all(myRequests).then(function(arrayOfHtml){
+    //     var temparature = arrayOfHtml[0]? JSON.parse(arrayOfHtml[0]).data: null;
+    //     var accelerometer = arrayOfHtml[1]? JSON.parse(arrayOfHtml[1]).data: null;
+    //     var din1 = arrayOfHtml[2]? JSON.parse(arrayOfHtml[2]).data: null;
+    //     console.log("fuck");
+    //     let result = ({
+    //         "id": team,
+    //         "temparature": temparature,
+    //         "accelerometer": accelerometer,
+    //         "din1": din1
+    //     });
+    //     res.render('team', {
+    //         title: 'Team ' + team,
+    //         result: result
+    //     });
+    // }).catch(function (err) {
+    //     console.log("Error" + err);
+    // });
+    //
+    //
+    // console.log(data_list);
+    // res.render('teams', {
+    //     title: 'All Teams',
+    //     result: data_list
+    // });
 });
 
 router.get('/teams/:teamID/', function(req, res, next) {
