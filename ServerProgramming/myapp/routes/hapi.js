@@ -34,7 +34,12 @@ var dataFetcher = (team, res) => {
     myRequests.push(rp(CATurl + "/api/temperature/" + team + "/3"));
     myRequests.push(rp(CATurl + "/api/accelerometer/" + team + "/3"));
     myRequests.push(rp(CATurl + "/api/din1/"+team+"/3"));
+    // =============================== Fake Data Test ==============================================
+    //     myRequests.push(rp("https://jsonplaceholder.typicode.com/todos"));
+    //     myRequests.push(rp("https://jsonplaceholder.typicode.com/albums"));
+    //     myRequests.push(rp("https://jsonplaceholder.typicode.com/photos"));
     Promise.all(myRequests).then(function(arrayOfHtml){
+
         let temparature_data = arrayOfHtml[0]? JSON.parse(arrayOfHtml[0]).data: null;
         let accelerometer_data = arrayOfHtml[1]? JSON.parse(arrayOfHtml[1]).data: null;
         let din1_data = arrayOfHtml[2]? JSON.parse(arrayOfHtml[2]).data: null;
@@ -44,6 +49,23 @@ var dataFetcher = (team, res) => {
             "accelerometer": accelerometer_data,
             "din1": din1_data
         });
+
+        // =============================== Fake Data Test ==============================================
+        // let temparature_data = arrayOfHtml[0]? JSON.parse(arrayOfHtml[0]): null;
+        // let accelerometer_data = arrayOfHtml[1]? JSON.parse(arrayOfHtml[1]): null;
+        // let din1_data = arrayOfHtml[2]? JSON.parse(arrayOfHtml[2]): null;
+        // console.log(temparature_data.length);
+        // console.log(accelerometer_data.length);
+        // console.log(din1_data.length);
+        //
+        // let result = ({
+        //     "id": team,
+        //     "temparature": [{sensID: 1, val: 5, date: 'day1'},{sensID: 2, val: 6, date: 'dayy'}],
+        //     "accelerometer": [{sensID: 5, val_x: 1, val_y: 2, val_z: 3, date: 'Date'}],
+        //     "din1": [{sensID: 2, val: 6, date: 'dayy'}, {sensID: 1, val: 5, date: 'day1'}]
+        // });
+
+
         res.render('team', {
             title: 'Team ' + team,
             result: result
@@ -71,6 +93,10 @@ router.get('/teams/all/', function(req, res, next) {
         myRequests.push(rp(CATurl + "/api/temperature/" + device_node + "/3"));
         myRequests.push(rp(CATurl + "/api/accelerometer/" + device_node + "/3"));
         myRequests.push(rp(CATurl + "/api/din1/"+device_node+"/3"));
+    // =============================== Fake Data Test ==============================================
+    //     myRequests.push(rp("https://jsonplaceholder.typicode.com/todos"));
+    //     myRequests.push(rp("https://jsonplaceholder.typicode.com/albums"));
+    //     myRequests.push(rp("https://jsonplaceholder.typicode.com/photos"));
     });
     Promise.all(myRequests).then(function (arrayOfData){
         console.log("myRequests.length = " + myRequests.length);
@@ -80,19 +106,36 @@ router.get('/teams/all/', function(req, res, next) {
             let temparature_data = arrayOfData[i]? JSON.parse(arrayOfData[i]).data: null;
             let accelerometer_data = arrayOfData[i+1]? JSON.parse(arrayOfData[i+1]).data: null;
             let din1_data = arrayOfData[i+2]? JSON.parse(arrayOfData[i+2]).data: null;
+
             result_data_list.push({
                 "id": nodes_list[(i)/3],
                 "temparature": temparature_data,
                 "accelerometer": accelerometer_data,
                 "din1": din1_data
-            })
+            });
+
+            // =============================== Fake Data Test ==============================================
+            // let temparature_data = arrayOfData[i]? JSON.parse(arrayOfData[i]): null;
+            // let accelerometer_data = arrayOfData[i+1]? JSON.parse(arrayOfData[i+1]): null;
+            // let din1_data = arrayOfData[i+2]? JSON.parse(arrayOfData[i+2]): null;
+            // console.log(temparature_data.length);
+            // console.log(accelerometer_data.length);
+            // console.log(din1_data.length);
+            // result_data_list.push({
+            //     "id": nodes_list[(i)/3],
+            //     "temparature": [{sensID: 1, val: 5, date: 'day1'},{sensID: 2, val: 6, date: 'dayy'}],
+            //     "accelerometer": [{sensID: 5, val_x: 1, val_y: 2, val_z: 3, date: 'Date'}],
+            //     "din1": [{sensID: 2, val: 6, date: 'dayy'}, {sensID: 1, val: 5, date: 'day1'}]
+            // })
         }
         console.log("result_data_list");
         console.log(result_data_list);
-    });
-    res.render('index', {
-        title: 'All Teams',
-        result: []
+        res.render('teams', {
+            title: 'All Teams',
+            result: {
+                teams: result_data_list
+            }
+        });
     });
 });
 
