@@ -1,3 +1,5 @@
 language: node_js
 notifications:
-  slack: hookworms:0wZNjHqmlrCNZlybQHSPCl3D
+    slack: hookworms:0wZNjHqmlrCNZlybQHSPCl3D
+script:
+  - mocha ServerProgramming\myapp\test
