@@ -19,8 +19,7 @@
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "serve-favicon": "~2.4.5",
-    "sinon": "^4.1.4",
-    "sinon-mongoose": "^2.0.2"
+    "sinon": "^4.1.4"
   },
   "devDependencies": {
     "cors": "^2.8.4",
