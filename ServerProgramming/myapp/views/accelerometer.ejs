@@ -12,11 +12,9 @@
 </head>
 <body>
 <h1>Welcome to HAPI</h1>
-<h2><%= title %></h2>
-<h2>Accelerometer</h2>
-
+<h2>Accelerometer(<%= accelerometer.length %>)</h2>
 <form method="POST">
-    Datetime:<br><input type="text" name="datetime"><br>
+    Datetime:<br><input type="datetime-local" value="<%= datetime%>" name="datetime"><br>
     <input type="submit" value="Submit">
 </form>
 <table style="width:100%">

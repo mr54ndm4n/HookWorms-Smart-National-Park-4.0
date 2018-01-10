@@ -11,7 +11,7 @@ humidityController.list = function(req, res) {
     Humidity.find({}).exec(function (err, humidity_list) {
         if (err) {console.log("Error:", err);}
         else {
-            let t = humidity_list[0].data;
+            let t = humidity_list;
             if(req.body.datetime){t = t.filter(humidity => utils.compareTime(req.body.datetime, humidity["date"]))}
             res.render("../views/humidity", {title: "Humidity", humidity: t, datetime: req.body.datetime});
         }
@@ -27,7 +27,7 @@ humidityController.save = function(t) {
         if(err) {
             console.log(err);
         } else {
-            console.log("Successfully created an Humidity with " + t.data.length + " datas");
+            console.log("Successfully created an Humidity");
         }
     })
 };

@@ -10,7 +10,7 @@ pressureController.list = function(req, res) {
     Pressure.find({}).exec(function (err, pressure_list) {
         if (err) {console.log("Error:", err);}
         else {
-            let t = pressure_list[0].data;
+            let t = pressure_list;
             if(req.body.datetime){t = t.filter(pressure => utils.compareTime(req.body.datetime, pressure["date"]))}
             res.render("../views/pressure", {title: "Pressure", pressure: t, datetime: req.body.datetime});
         }
@@ -25,7 +25,7 @@ pressureController.save = function(t) {
         if(err) {
             console.log(err);
         } else {
-            console.log("Successfully created an Pressure with " + t.data.length + " datas");
+            console.log("Successfully created an Pressure");
         }
     })
 };

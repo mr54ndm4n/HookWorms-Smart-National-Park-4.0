@@ -12,13 +12,11 @@
 </head>
 <body>
 <h1>Welcome to HAPI</h1>
-<h2><%= title %></h2>
 <h2>Temperature(<%= temperature.length %>)</h2>
 <form method="POST">
-    Datetime:<br><input type="text" name="datetime"><br>
+    Datetime:<br><input type="datetime-local" value="<%= datetime%>" name="datetime"><br>
     <input type="submit" value="Submit">
 </form>
-<label>Datetime = "<%= datetime%>"</label>
 <table style="width:100%">
     <tr>
         <th>sensID</th>

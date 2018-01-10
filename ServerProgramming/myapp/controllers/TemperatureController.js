@@ -10,7 +10,7 @@ temperatureController.list = function(req, res) {
     Temperature.find({}).exec(function (err, temperature_list) {
         if (err) {console.log("Error:", err);}
         else {
-            let t = temperature_list[0].data;
+            let t = temperature_list;
             if(req.body.datetime){t = t.filter(temperature => utils.compareTime(req.body.datetime, temperature["date"]))}
             res.render("../views/temperature", {title: "Temperature", temperature: t, datetime: req.body.datetime});
         }
@@ -26,7 +26,7 @@ temperatureController.save = function(t) {
             console.log(err);
         }
         else {
-            console.log("Successfully created an Pressure with " + t.data.length + " datas");
+            console.log("Successfully created an Temperature");
         }
     })
 };

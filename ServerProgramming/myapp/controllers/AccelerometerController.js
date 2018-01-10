@@ -10,7 +10,7 @@ accelerometerController.list = function(req, res) {
     Accelerometer.find({}).exec(function (err, accelerometer_list) {
         if (err) {console.log("Error:", err);}
         else {
-            let t = accelerometer_list[0].data;
+            let t = accelerometer_list;
             if(req.body.datetime){t = t.filter(accelerometer => utils.compareTime(req.body.datetime, accelerometer["date"]))}
             res.render("../views/accelerometer", {title: "Accelerometer", accelerometer: t, datetime: req.body.datetime});
         }
@@ -25,7 +25,7 @@ accelerometerController.save = function(t) {
         if(err) {
             console.log(err);
         } else {
-            console.log("Successfully created an Accelerometer with " + t.data.length + " datas");
+            console.log("Successfully created an Accelerometer");
         }
     })
 };

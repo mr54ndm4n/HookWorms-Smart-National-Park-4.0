@@ -10,7 +10,7 @@ magnetometerController.list = function(req, res) {
     Magnetometer.find({}).exec(function (err, magnetometer_list) {
         if (err) {console.log("Error:", err);}
         else {
-            let t = magnetometer_list[0].data;
+            let t = magnetometer_list;
             if(req.body.datetime){t = t.filter(magnetometer => utils.compareTime(req.body.datetime, magnetometer["date"]))}
             res.render("../views/magnetometer", {title: "Magnetometer", magnetometer: t, datetime: req.body.datetime});
         }
@@ -26,7 +26,7 @@ magnetometerController.save = function(t) {
         if(err) {
             console.log(err);
         } else {
-            console.log("Successfully created an Magnetometer with " + t.data.length + " datas");
+            console.log("Successfully created an Magnetometer");
         }
     })
 };

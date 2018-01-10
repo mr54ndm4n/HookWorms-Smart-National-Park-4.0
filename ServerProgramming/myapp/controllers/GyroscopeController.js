@@ -10,7 +10,7 @@ gyroscopeController.list = function(req, res) {
     Gyroscope.find({}).exec(function (err, gyroscope_list) {
         if (err) {console.log("Error:", err);}
         else {
-            let t = gyroscope_list[0].data;
+            let t = gyroscope_list;
             if(req.body.datetime){t = t.filter(gyroscope => utils.compareTime(req.body.datetime, gyroscope["date"]))}
             res.render("../views/gyroscope", {title: "Gyroscope", gyroscope: t, datetime: req.body.datetime});
         }
@@ -25,7 +25,7 @@ gyroscopeController.save = function(t) {
         if(err) {
             console.log(err);
         } else {
-            console.log("Successfully created an Gyroscope with " + t.data.length + " datas");
+            console.log("Successfully created an Gyroscope");
         }
     })
 };

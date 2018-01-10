@@ -165,6 +165,7 @@ router.post('/showresponse', function(req, res, next) {
 });
 
 router.get('/pressure', function(req, res, next) {
+    res.locals.datetime = null;
     pressure.list(req, res);
 });
 router.post('/pressure', function(req, res, next) {

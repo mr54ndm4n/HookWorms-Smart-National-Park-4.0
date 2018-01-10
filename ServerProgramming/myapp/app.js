@@ -9,7 +9,7 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/hapi')
     .then(() =>  console.log('connection succesful'))
-.catch((err) => console.error(err));
+    .catch((err) => console.error(err));
 
 var index = require('./routes/index');
 var users = require('./routes/users');

@@ -1,14 +1,10 @@
 var mongoose = require('mongoose');
 
 var DinSchema = new mongoose.Schema({
-    statusCode: String,
-    statusDesc: String,
-    pin: String,
-    data: [{
-        sensID: String,
-        val: String,
-        date: String
-    }]
+    sensID: String,
+    val: String,
+    date: String,
+    pin: String
 });
 
-module.exports = mongoose.model('Gyroscope', GyroscopeSchema);
+module.exports = mongoose.model('Gyroscope', DinSchema);
