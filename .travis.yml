@@ -4,4 +4,4 @@ notifications:
 script:
   - cd ServerProgramming/myapp
   - npm install
-  - mocha
+  - mocha --harmony
