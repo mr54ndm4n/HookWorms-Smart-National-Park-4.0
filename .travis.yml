@@ -1,3 +1,9 @@
 language: node_js
+node_js:
+  - "node"
 notifications:
-  slack: hookworms:0wZNjHqmlrCNZlybQHSPCl3D
+    slack: hookworms:0wZNjHqmlrCNZlybQHSPCl3D
+script:
+  - cd ServerProgramming/myapp
+  - npm install
+  - mocha --harmony

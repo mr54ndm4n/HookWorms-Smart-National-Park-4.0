@@ -26,7 +26,12 @@ const status = {
         desc: "Cannot find the requested data"
     }
 };
-
+var pressure = require("../controllers/PressureController.js");
+var temperature = require("../controllers/TemperatureController.js");
+var humidity = require("../controllers/HumidityController.js");
+var gyroscope = require("../controllers/GyroscopeController.js");
+var accelerometer = require("../controllers/AccelerometerController.js");
+var magnetometer = require("../controllers/MagnetometerController.js");
 
 var dataFetcher = (team, res) => {
 
@@ -157,6 +162,55 @@ router.post('/showresponse', function(req, res, next) {
         LAT: req.body.LAT,
         LONG: req.body.LONG
     });
+});
+
+router.get('/pressure', function(req, res, next) {
+    res.locals.datetime = null;
+    pressure.list(req, res);
+});
+router.post('/pressure', function(req, res, next) {
+    pressure.list(req, res);
+});
+
+router.get('/temperature', function(req, res, next) {
+    res.locals.datetime = null;
+    temperature.list(req, res);
+});
+router.post('/temperature', function(req, res, next) {
+    console.log("POST")
+    temperature.list(req, res);
+});
+
+router.get('/humidity', function(req, res, next) {
+    res.locals.datetime = null;
+    humidity.list(req, res);
+});
+router.post('/humidity', function(req, res, next) {
+    humidity.list(req, res);
+});
+
+router.get('/gyroscope', function(req, res, next) {
+    res.locals.datetime = null;
+    gyroscope.list(req, res);
+});
+router.post('/gyroscope', function(req, res, next) {
+    gyroscope.list(req, res);
+});
+
+router.get('/accelerometer', function(req, res, next) {
+    res.locals.datetime = null;
+    accelerometer.list(req, res);
+});
+router.post('/accelerometer', function(req, res, next) {
+    accelerometer.list(req, res);
+});
+
+router.get('/magnetometer', function(req, res, next) {
+    res.locals.datetime = null;
+    magnetometer.list(req, res);
+});
+router.post('/magnetometer', function(req, res, next) {
+    magnetometer.list(req, res);
 });
 
 module.exports = router;

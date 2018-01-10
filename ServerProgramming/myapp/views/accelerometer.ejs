@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HAPI: <%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to HAPI</h1>
+<h2>Accelerometer(<%= accelerometer.length %>)</h2>
+<form method="POST">
+    Datetime:<br><input type="datetime-local" value="<%= datetime%>" name="datetime"><br>
+    <input type="submit" value="Submit">
+</form>
+<table style="width:100%">
+    <tr>
+        <th>sensID</th>
+        <th>val_x</th>
+        <th>val_y</th>
+        <th>val_z</th>
+        <th>date</th>
+    </tr>
+    <% for(var i=0; i < accelerometer.length; i++) { %>
+    <tr>
+        <td><%= accelerometer[i].sensID %></td>
+        <td><%= accelerometer[i].val_x %></td>
+        <td><%= accelerometer[i].val_y %></td>
+        <td><%= accelerometer[i].val_z %></td>
+        <td><%= accelerometer[i].date %></td>
+    </tr>
+    <% } %>
+</table>
+</body>
+</html>
