@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var utils = require("../Utils");
 var Pressure = require("../models/Pressure");
 
 var pressureController = {};
@@ -6,13 +7,12 @@ var pressureController = {};
 // Show list of pressure
 pressureController.list = function(req, res) {
     console.log("List Pressure");
-    Pressure.find({}).exec(function (err, pressure) {
-        if (err) {
-            console.log("Error:", err);
-        }
+    Pressure.find({}).exec(function (err, pressure_list) {
+        if (err) {console.log("Error:", err);}
         else {
-            console.log(pressure[0].data);
-            res.render("../views/pressure", {title: "Pressure", pressure: pressure[0].data});
+            let t = pressure_list[0].data;
+            if(req.body.datetime){t = t.filter(pressure => utils.compareTime(req.body.datetime, pressure["date"]))}
+            res.render("../views/pressure", {title: "Pressure", pressure: t, datetime: req.body.datetime});
         }
     });
 };

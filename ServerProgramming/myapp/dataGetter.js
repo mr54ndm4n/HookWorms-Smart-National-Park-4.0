@@ -16,7 +16,7 @@ var accelerometer = require("./controllers/AccelerometerController.js");
 var magnetometer = require("./controllers/MagnetometerController.js");
 
 const CATurl = "http://10.0.0.10";
-const TEAM_ID = 5;
+const TEAM_ID = 19;
 
 var myRequests = [];
 myRequests.push(rp("http://10.0.0.10/api/pressure/" + TEAM_ID + "/all"));

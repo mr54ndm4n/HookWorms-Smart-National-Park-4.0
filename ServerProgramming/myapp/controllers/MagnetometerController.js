@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var utils = require("../Utils");
 var Magnetometer = require("../models/Magnetometer");
 
 var magnetometerController = {};
@@ -6,16 +7,16 @@ var magnetometerController = {};
 // Show list of magnetometer
 magnetometerController.list = function(req, res) {
     console.log("List Magnetometer");
-    Magnetometer.find({}).exec(function (err, magnetometer) {
-        if (err) {
-            console.log("Error:", err);
-        }
+    Magnetometer.find({}).exec(function (err, magnetometer_list) {
+        if (err) {console.log("Error:", err);}
         else {
-            console.log(magnetometer[0].data);
-            res.render("../views/magnetometer", {title: "Magnetometer", magnetometer: magnetometer[0].data});
+            let t = magnetometer_list[0].data;
+            if(req.body.datetime){t = t.filter(magnetometer => utils.compareTime(req.body.datetime, magnetometer["date"]))}
+            res.render("../views/magnetometer", {title: "Magnetometer", magnetometer: t, datetime: req.body.datetime});
         }
     });
 };
+
 
 // Save new magnetometer
 magnetometerController.save = function(t) {

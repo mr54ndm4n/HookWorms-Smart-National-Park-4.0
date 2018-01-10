@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var utils = require("../Utils");
 var Humidity = require("../models/Humidity");
 
 var humidityController = {};
@@ -7,13 +8,12 @@ var humidityController = {};
 // Show list of humidity
 humidityController.list = function(req, res) {
     console.log("List Humidity");
-    Humidity.find({}).exec(function (err, humidity) {
-        if (err) {
-            console.log("Error:", err);
-        }
+    Humidity.find({}).exec(function (err, humidity_list) {
+        if (err) {console.log("Error:", err);}
         else {
-            console.log(humidity[0].data);
-            res.render("../views/humidity", {title: "Humidity", humidity: humidity[0].data});
+            let t = humidity_list[0].data;
+            if(req.body.datetime){t = t.filter(humidity => utils.compareTime(req.body.datetime, humidity["date"]))}
+            res.render("../views/humidity", {title: "Humidity", humidity: t, datetime: req.body.datetime});
         }
     });
 };
