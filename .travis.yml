@@ -1,5 +1,7 @@
 language: node_js
 notifications:
     slack: hookworms:0wZNjHqmlrCNZlybQHSPCl3D
+before_install:
+  - "npm install"
 script:
-  - mocha ServerProgramming\myapp\test
+  - "mocha ServerProgramming\\myapp\\test"
