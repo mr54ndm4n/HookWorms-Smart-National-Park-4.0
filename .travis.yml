@@ -1,4 +1,7 @@
 language: node_js
 notifications:
     slack: hookworms:0wZNjHqmlrCNZlybQHSPCl3D
-script: ./build.sh
+script:
+  - cd ServerProgramming/myapp
+  - npm install
+  - mocha
