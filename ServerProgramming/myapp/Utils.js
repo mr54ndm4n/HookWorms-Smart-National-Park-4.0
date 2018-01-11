@@ -19,9 +19,9 @@ utils.stringToTime = (t_str, t) => {
 }
 
 utils.compareTimeLength = (d, start, stop) => {
-    d = new Date("Thu Jan 11 2018");
-    start = utils.stringToTime(start, new Date());
-    stop = utils.stringToTime(stop, new Date());
+    d = new Date(d);
+    start = utils.stringToTime(start, new Date("Thu Jan 11 2018"));
+    stop = utils.stringToTime(stop, new Date("Thu Jan 11 2018"));
     return (d.getTime() >= start.getTime()) > 0 && (d.getTime() <= stop.getTime())
 }
 

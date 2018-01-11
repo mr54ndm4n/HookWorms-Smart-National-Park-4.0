@@ -12,7 +12,7 @@ din1Controller.list = function(req, res) {
         else {
             let t = din1_list;
             if(req.body.datetime_start && req.body.datetime_stop){t = t.filter(din1 => utils.compareTimeLength(din1["date"], req.body.datetime_start, req.body.datetime_stop))}
-            res.render("../views/din1", {title: "Din1", din1: t, datetime_start: req.body.datetime_start, datetime_stop: req.body.datetime_stop});
+            res.render("../views/din1", {title: "Din1", din1: t.slice(0, 200), datetime_start: req.body.datetime_start, datetime_stop: req.body.datetime_stop});
         }
     });
 };
