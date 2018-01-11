@@ -14,8 +14,8 @@ var controllers = [
 ];
 
 const CATurl = "http://10.0.0.10";
-const TEAMS_ID = [19];
-const AMOUNT = "all"
+const TEAMS_ID = [19,21,37,11,25,13,31,29,40,24,28,44,46,14,61,30,60,47,49,33,22,10,48,16,38,39,15,18,51,12,50,27,53,52,26,54,43,23,35,34,32];
+const AMOUNT = "all";
 
 var myRequests = [];
 TEAMS_ID.map(function(team_id){
