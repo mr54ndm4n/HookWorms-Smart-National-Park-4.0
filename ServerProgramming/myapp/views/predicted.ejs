@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HAPI: <%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to HAPI</h1>
+<h2>Predicted Data(<%= predictedData.length %>)</h2>
+<table style="width:100%">
+    <tr>
+        <th>Date Time</th>
+        <th>TEAM_ID</th>
+        <th>Description</th>
+    </tr>
+    <% for(var i=0; i < predictedData.length; i++) { %>
+    <tr>
+        <td><%= predictedData[i].date %></td>
+        <td><%= predictedData[i].team_id %></td>
+        <td><%= predictedData[i].description %></td>
+    </tr>
+    <% } %>
+</table>
+</body>
+</html>

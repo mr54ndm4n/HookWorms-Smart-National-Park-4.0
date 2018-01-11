@@ -14,17 +14,20 @@
 <h1>Welcome to HAPI</h1>
 <h2>Temperature(<%= temperature.length %>)</h2>
 <form method="POST">
-    Datetime:<br><input type="datetime-local" value="<%= datetime%>" name="datetime"><br>
+    Start:<br><input type="text" value="<%= datetime_start%>" name="datetime_start"><br>
+    Stop:<br><input type="text" value="<%= datetime_stop%>" name="datetime_stop"><br>
     <input type="submit" value="Submit">
 </form>
 <table style="width:100%">
     <tr>
+        <th>TEAM_ID</th>
         <th>sensID</th>
         <th>val</th>
         <th>date</th>
     </tr>
     <% for(var i=0; i < temperature.length; i++) { %>
     <tr>
+        <td><%= temperature[i].teamID %></td>
         <td><%= temperature[i].sensID %></td>
         <td><%= temperature[i].val %></td>
         <td><%= temperature[i].date %></td>
