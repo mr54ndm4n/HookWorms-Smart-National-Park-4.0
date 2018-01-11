@@ -14,11 +14,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Utils.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Utils.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Utils.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
               <caret line="21" column="33" lean-forward="false" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataGetter.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dataGetter.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="17" column="21" lean-forward="false" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -85,7 +95,6 @@
         <option value="$PROJECT_DIR$/routes/hapi.js" />
         <option value="$PROJECT_DIR$/views/accelerometer.ejs" />
         <option value="$PROJECT_DIR$/views/din1.ejs" />
-        <option value="$PROJECT_DIR$/dataGetter.js" />
         <option value="$PROJECT_DIR$/views/temperature.ejs" />
         <option value="$PROJECT_DIR$/routes/allTeamSensor.js" />
         <option value="$PROJECT_DIR$/controllers/Din1Controller.js" />
@@ -96,6 +105,7 @@
         <option value="$PROJECT_DIR$/models/PredictedData.js" />
         <option value="$PROJECT_DIR$/views/predicted.ejs" />
         <option value="$PROJECT_DIR$/Utils.js" />
+        <option value="$PROJECT_DIR$/dataGetter.js" />
       </list>
     </option>
   </component>
@@ -252,7 +262,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58859000" />
+    <option name="totallyTimeSpent" value="59442000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -546,13 +556,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataGetter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="56" column="2" lean-forward="false" selection-start-line="56" selection-start-column="2" selection-end-line="58" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/allTeamSensor.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -634,6 +637,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="40" lean-forward="false" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataGetter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="17" column="21" lean-forward="false" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
