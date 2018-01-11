@@ -12,7 +12,7 @@
 </head>
 <body>
 <h1>Welcome to HAPI</h1>
-<h2>Accelerometer(<%= accelerometer.length %>)</h2>
+<h2>Din1(<%= din1.length %>)</h2>
 <form method="POST">
     Start:<br><input type="text" value="<%= datetime_start%>" name="datetime_start"><br>
     Stop:<br><input type="text" value="<%= datetime_stop%>" name="datetime_stop"><br>
@@ -22,19 +22,15 @@
     <tr>
         <th>TEAM_ID</th>
         <th>sensID</th>
-        <th>val_x</th>
-        <th>val_y</th>
-        <th>val_z</th>
+        <th>val</th>
         <th>date</th>
     </tr>
-    <% for(var i=0; i < accelerometer.length; i++) { %>
+    <% for(var i=0; i < din1.length; i++) { %>
     <tr>
-        <td><%= accelerometer[i].teamID %></td>
-        <td><%= accelerometer[i].sensID %></td>
-        <td><%= accelerometer[i].val_x %></td>
-        <td><%= accelerometer[i].val_y %></td>
-        <td><%= accelerometer[i].val_z %></td>
-        <td><%= accelerometer[i].date %></td>
+        <td><%= din1[i].teamID %></td>
+        <td><%= din1[i].sensID %></td>
+        <td><%= din1[i].val %></td>
+        <td><%= din1[i].date %></td>
     </tr>
     <% } %>
 </table>

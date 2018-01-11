@@ -14,6 +14,8 @@ mongoose.connect('mongodb://localhost/hapi')
 var index = require('./routes/index');
 var users = require('./routes/users');
 var hapi = require('./routes/hapi');
+var allTeamSensor = require('./routes/allTeamSensor');
+var alert = require('./routes/alert');
 
 var app = express();
 
@@ -32,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/hapi', hapi);
+app.use('/allTeamSensor', allTeamSensor);
+app.use('/alert', alert);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

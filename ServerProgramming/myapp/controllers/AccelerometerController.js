@@ -11,21 +11,35 @@ accelerometerController.list = function(req, res) {
         if (err) {console.log("Error:", err);}
         else {
             let t = accelerometer_list;
-            if(req.body.datetime){t = t.filter(accelerometer => utils.compareTime(req.body.datetime, accelerometer["date"]))}
-            res.render("../views/accelerometer", {title: "Accelerometer", accelerometer: t, datetime: req.body.datetime});
+            if(req.body.datetime_start && req.body.datetime_stop){t = t.filter(accelerometer => utils.compareTimeLength(accelerometer["date"], req.body.datetime_start, req.body.datetime_stop))}
+            res.render("../views/accelerometer", {title: "Accelerometer", accelerometer: t, datetime_start: req.body.datetime_start, datetime_stop: req.body.datetime_stop});
         }
     });
 };
 
+accelerometerController.listJson = function(start, stop){
+    return new Promise(function(resolve, reject) {
+        console.log("List Accelerometer");
+        Accelerometer.find({}).exec(function (err, accelerometer_list) {
+            if (err) {console.log("Error:", err);}
+            else {
+                let t = accelerometer_list;
+                resolve(t.filter(accelerometer => utils.compareTimeLength(accelerometer["date"], start, stop)))
+            }
+        });
+    });
+};
+
 // Save new accelerometer
-accelerometerController.save = function(t) {
-    console.log("Create Accelerometer");
+accelerometerController.save = function(t, teamID) {
+    // console.log("Create Accelerometer");
+    t["teamID"] = teamID;
     var accelerometer = new Accelerometer(t);
     accelerometer.save(function(err){
         if(err) {
             console.log(err);
         } else {
-            console.log("Successfully created an Accelerometer");
+            // console.log("Successfully created an Accelerometer");
         }
     })
 };

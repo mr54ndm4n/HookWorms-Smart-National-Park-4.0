@@ -8,33 +8,51 @@ mongoose.connect('mongodb://localhost/hapi')
 .catch((err) => console.error(err));
 
 var controllers = [
-    require("./controllers/PressureController.js"),
     require("./controllers/TemperatureController.js"),
-    require("./controllers/HumidityController.js"),
-    require("./controllers/GyroscopeController.js"),
     require("./controllers/AccelerometerController.js"),
-    require("./controllers/MagnetometerController.js")
+    require("./controllers/Din1Controller.js")
 ];
 
 const CATurl = "http://10.0.0.10";
-const TEAM_ID = 19;
+const TEAMS_ID = [19];
+const AMOUNT = "all"
 
 var myRequests = [];
-myRequests.push(rp(CATurl + "/api/pressure/" + TEAM_ID + "/all"));
-myRequests.push(rp(CATurl + "/api/temperature/" + TEAM_ID + "/all"));
-myRequests.push(rp(CATurl + "/api/humidity/" + TEAM_ID + "/all"));
-myRequests.push(rp(CATurl + "/api/gyroscope/" + TEAM_ID + "/all"));
-myRequests.push(rp(CATurl + "/api/magnetometer/" + TEAM_ID + "/all"));
-myRequests.push(rp(CATurl + "/api/accelerometer/" + TEAM_ID + "/all"));
+TEAMS_ID.map(function(team_id){
+    myRequests.push(rp(CATurl + "/api/temperature/" + team_id + "/" + AMOUNT));
+    myRequests.push(rp(CATurl + "/api/accelerometer/" + team_id + "/" + AMOUNT));
+    myRequests.push(rp(CATurl + "/api/din1/" + team_id + "/" + AMOUNT));
+});
 // console.log("Promise All")
 Promise.all(myRequests).then(function(arrayOfHtml){
-    for(let i=0; i<6; i++){
-        let request_data = arrayOfHtml[i]? JSON.parse(arrayOfHtml[i]): null;
-        if(request_data){
-            if(request_data.data){
-                request_data.data.map(p => controllers[i].save(p))
+    for(let i=0; i < arrayOfHtml.length; i+=3){
+        let team_id = TEAMS_ID[i/3];
+        console.log("Insert Data from TEAM [" + team_id + "]");
+
+        let temperatureData = arrayOfHtml[i]? JSON.parse(arrayOfHtml[i]): null;
+        if(temperatureData){
+            if(temperatureData.data){
+                console.log("\t\tTEAM[" + team_id + "] Temperature (" + temperatureData.data.length + ")");
+                temperatureData.data.map(t => controllers[0].save(t, team_id));
             }
         }
+
+        let accelerometerData = arrayOfHtml[i+1]? JSON.parse(arrayOfHtml[i+1]): null;
+        if(accelerometerData){
+            if(accelerometerData.data){
+                console.log("\t\tTEAM[" + team_id + "] Accelerometer (" + accelerometerData.data.length + ")");
+                accelerometerData.data.map(a => controllers[1].save(a, team_id));
+            }
+        }
+
+        let magnetometerData = arrayOfHtml[i+2]? JSON.parse(arrayOfHtml[i+2]): null;
+        if(magnetometerData){
+            if(magnetometerData.data){
+                console.log("\t\tTEAM[" + team_id + "] Magnetometer (" + magnetometerData.data.length + ")");
+                magnetometerData.data.map(d => controllers[2].save(d, team_id))
+            }
+        }
+
     }
 }).catch(function (err) {
     console.log("Error" + err);

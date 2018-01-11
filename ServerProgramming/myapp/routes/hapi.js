@@ -32,6 +32,8 @@ var humidity = require("../controllers/HumidityController.js");
 var gyroscope = require("../controllers/GyroscopeController.js");
 var accelerometer = require("../controllers/AccelerometerController.js");
 var magnetometer = require("../controllers/MagnetometerController.js");
+var din1 = require("../controllers/Din1Controller.js");
+var predictedData = require("../controllers/PredictedDataController.js");
 
 var dataFetcher = (team, res) => {
 
@@ -173,7 +175,8 @@ router.post('/pressure', function(req, res, next) {
 });
 
 router.get('/temperature', function(req, res, next) {
-    res.locals.datetime = null;
+    res.locals.datetime_start = null;
+    res.locals.datetime_stop = null;
     temperature.list(req, res);
 });
 router.post('/temperature', function(req, res, next) {
@@ -198,7 +201,8 @@ router.post('/gyroscope', function(req, res, next) {
 });
 
 router.get('/accelerometer', function(req, res, next) {
-    res.locals.datetime = null;
+    res.locals.datetime_start = null;
+    res.locals.datetime_stop = null;
     accelerometer.list(req, res);
 });
 router.post('/accelerometer', function(req, res, next) {
@@ -211,6 +215,32 @@ router.get('/magnetometer', function(req, res, next) {
 });
 router.post('/magnetometer', function(req, res, next) {
     magnetometer.list(req, res);
+});
+
+router.get('/din1', function(req, res, next) {
+    res.locals.datetime_start = null;
+    res.locals.datetime_stop = null;
+    din1.list(req, res);
+});
+router.post('/din1', function(req, res, next) {
+    din1.list(req, res);
+});
+
+
+router.get('/predicted', function(req, res, next) {
+    predictedData.list(req, res);
+});
+
+router.get('/sendpredicted', function(req, res, next) {
+    res.locals.team_id = null;
+    res.locals.description = null;
+    res.render('predicted_data')
+});
+router.post('/sendpredicted', function(req, res, next) {
+    //Add to DB
+    let data = {team_id: req.body.team_id, description: req.body.description}
+    predictedData.save(data)
+    res.send("Data Accepted" + JSON.stringify(data));
 });
 
 module.exports = router;
