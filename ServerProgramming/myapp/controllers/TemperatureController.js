@@ -7,13 +7,12 @@ var temperatureController = {};
 // Show list of temperature
 temperatureController.list = function(req, res) {
     console.log("List Temperature");
-    console.log(start + " : " + stop)
     Temperature.find({}).exec(function (err, temperature_list) {
         if (err) {console.log("Error:", err);}
         else {
             let t = temperature_list;
             if(req.body.datetime_start && req.body.datetime_stop){t = t.filter(temperature => utils.compareTimeLength(temperature["date"], req.body.datetime_start, req.body.datetime_stop))}
-            res.render("../views/temperature", {title: "Temperature", temperature: t, datetime_start: req.body.datetime_start, datetime_stop: req.body.datetime_stop});
+            res.render("../views/temperature", {title: "Temperature", temperature: t.slice(0, 200), datetime_start: req.body.datetime_start, datetime_stop: req.body.datetime_stop});
         }
     });
 };

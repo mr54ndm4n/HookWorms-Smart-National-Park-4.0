@@ -12,7 +12,7 @@ accelerometerController.list = function(req, res) {
         else {
             let t = accelerometer_list;
             if(req.body.datetime_start && req.body.datetime_stop){t = t.filter(accelerometer => utils.compareTimeLength(accelerometer["date"], req.body.datetime_start, req.body.datetime_stop))}
-            res.render("../views/accelerometer", {title: "Accelerometer", accelerometer: t, datetime_start: req.body.datetime_start, datetime_stop: req.body.datetime_stop});
+            res.render("../views/accelerometer", {title: "Accelerometer", accelerometer: t.slice(0, 200), datetime_start: req.body.datetime_start, datetime_stop: req.body.datetime_stop});
         }
     });
 };

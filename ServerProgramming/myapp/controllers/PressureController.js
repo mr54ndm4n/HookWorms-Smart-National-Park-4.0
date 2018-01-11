@@ -12,7 +12,7 @@ pressureController.list = function(req, res) {
         else {
             let t = pressure_list;
             if(req.body.datetime){t = t.filter(pressure => utils.compareTime(req.body.datetime, pressure["date"]))}
-            res.render("../views/pressure", {title: "Pressure", pressure: t, datetime: req.body.datetime});
+            res.render("../views/pressure", {title: "Pressure", pressure: t.slice(0, 200), datetime: req.body.datetime});
         }
     });
 };
